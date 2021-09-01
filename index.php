@@ -27,7 +27,7 @@
 
   <div class="container py-5">
     <main>
-      <a href="index.php?merge=true">Inizia Merge Files</a>
+      <a href="index.php?merge=true"><button class="btn btn-success">MERGE</button></a>
       <a href="example.php">DRIVE</a>
     </main>
     <?php
@@ -57,7 +57,7 @@
       while (($row = fgetcsv($fh2, 0, ",")) !== FALSE) {
         $books[] = $row;
       }
-      /* var_dump($authors); // autori
+      /* var_dump($authors); // authors
       echo '------------------------';
       var_dump($books); // books */
 
@@ -79,8 +79,8 @@
           0 => $books[$i][0], // id
           1 => $books[$i][1], // book name
           2 => findAuthor($books[$i][1], $authors, 'name'), // author name
-          3 => findAuthor($books[$i][1], $authors, 'bio'), // author bio
-          4 => extractUrl(findAuthor($books[$i][1], $authors, 'photo')), // author photo
+         // 3 => findAuthor($books[$i][1], $authors, 'bio'), // author bio
+          //4 => extractUrl(findAuthor($books[$i][1], $authors, 'photo')), // author photo
           5 => extractUrl($books[$i][3]), // book photo
           6 => $books[$i][4], // book synopsis
         ];
@@ -102,15 +102,24 @@
       echo '<a href="output.php"><button class="my-5 btn btn-primary">OUTPUT</button></a>';
 
       $_SESSION['array'] = $output;
-      /* echo $_SESSION['array']; */
     }
 
-    function findAuthor($id, $authors, $param)
+    function findAuthor($book_name, $authors, $param)
     {
-      $key = array_search($id, array_column($authors, '4'));
-      if ($param == 'name') return $authors[$key][1];
-      if ($param == 'bio') return $authors[$key][3];
-      if ($param == 'photo') return $authors[$key][2];
+      /* echo '-----COLUMN----' . $book_name . '<br>';
+      $column = array_column($authors,'4');
+      var_dump($column);
+      echo '--------- <br>'; */
+      $value = null;
+      for ($i=0; $i < count($authors) ; $i++) { 
+        if(strpos($authors[$i][4],$book_name)!== false){
+          $value = $i;
+        }
+      }
+      $key = array_search($book_name, array_column($authors, '4'));
+      if ($param == 'name') return $authors[$value][1];
+      if ($param == 'bio') return $authors[$value][3];
+      if ($param == 'photo') return $authors[$value][2];
     }
 
     function extractUrl($string)

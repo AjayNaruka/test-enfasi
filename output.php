@@ -1,5 +1,6 @@
 <?php
 session_start();
+$output=[];
 $output = $_SESSION['array'];
 session_destroy();
 ?>
@@ -39,7 +40,7 @@ session_destroy();
         </tr>
       </thead>
       <tbody>
-        <<?php
+        <?php
           foreach ($output as $key => $book) {
             if ($key == '0') continue;
           ?> <tr>
