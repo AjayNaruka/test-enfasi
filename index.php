@@ -71,7 +71,7 @@
         6 => 'synopsis',
       ];
 
-      /* OSS: gli ID non sono in corrispondenza  */
+      /* OSS: gli ID non sono in corrispondenza ( errore nel file ? ) */
 
       echo 'creazione output  <br>';
       for ($i = 1; $i < count($books); $i++) {
@@ -79,8 +79,8 @@
           0 => $books[$i][0], // id
           1 => $books[$i][1], // book name
           2 => findAuthor($books[$i][1], $authors, 'name'), // author name
-         // 3 => findAuthor($books[$i][1], $authors, 'bio'), // author bio
-          //4 => extractUrl(findAuthor($books[$i][1], $authors, 'photo')), // author photo
+          3 => findAuthor($books[$i][1], $authors, 'bio'), // author bio
+          4 => extractUrl(findAuthor($books[$i][1], $authors, 'photo')), // author photo
           5 => extractUrl($books[$i][3]), // book photo
           6 => $books[$i][4], // book synopsis
         ];
@@ -106,16 +106,15 @@
 
     function findAuthor($book_name, $authors, $param)
     {
-      /* echo '-----COLUMN----' . $book_name . '<br>';
-      $column = array_column($authors,'4');
-      var_dump($column);
-      echo '--------- <br>'; */
+  
       $value = null;
       for ($i=0; $i < count($authors) ; $i++) { 
         if(strpos($authors[$i][4],$book_name)!== false){
           $value = $i;
         }
       }
+
+      /* Key doesnt work since there are can be multiple values in the same column books in authors => use $value for correct results */
       $key = array_search($book_name, array_column($authors, '4'));
       if ($param == 'name') return $authors[$value][1];
       if ($param == 'bio') return $authors[$value][3];
