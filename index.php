@@ -40,19 +40,21 @@
     {
       session_start();
       echo 'Inizio...  <br>';
-      
+
       /* Opening files */
 
       echo 'Apertura files... <br>';
 
-      try{
+      try {
         $fh1 = fopen('https://intonsin.sirv.com/authors.csv', 'r');
         $fh2 = fopen('https://intonsin.sirv.com/books.csv', 'r');
-        if(!$fh1 || !$fh2){
-          throw new Exception("File FAILED"); 
+        if (!$fh1 || !$fh2) {
+          throw new Exception("File FAILED");
         }
-      } catch (Exception $e){
-        echo "Errore nell'apertura dei file";
+      } catch (Exception $e) {
+        echo "<div class=' my-5 alert alert-danger' role='alert'>
+                  Impossibile Aprire i File!
+              </div>";
         exit();
       }
 
@@ -116,10 +118,10 @@
 
     function findAuthor($book_name, $authors, $param)
     {
-  
+
       $value = null;
-      for ($i=0; $i < count($authors) ; $i++) { 
-        if(strpos($authors[$i][4],$book_name)!== false){
+      for ($i = 0; $i < count($authors); $i++) {
+        if (strpos($authors[$i][4], $book_name) !== false) {
           $value = $i;
         }
       }
